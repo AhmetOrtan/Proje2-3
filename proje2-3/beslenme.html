@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jQuery kütüphanesi -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Slick Slider stilleri -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+
+<!-- Slick Slider tema stilleri (isteğe bağlı) -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+
+<!-- Slick Slider script dosyası -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+</head>
+<body>
+<header>
+    <h1>Final</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Anasayfa</a></li>
+            <li><a href="hakkinda.html">Hakkında</a></li>
+            <li><a href="beslenme.html">Sağlıklı Beslenme</a></li>
+            <li><a href="kalori-hesaplama.html">Kalori Hesaplama</a></li>
+
+            <button id="toggleThemeBtn"></button>
+            <button class="fas fa-thumbtack" id ="changeFontBtn"></button>
+
+        </ul>
+    </nav>
+</header>
+
+
+<!-- Pop-up içeriği -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2>Hoş Geldiniz!</h2>
+        <p> </p>
+    </div>
+</div>
+
+<script src="scripts.js"></script>
+
+ <!--TC Kimlik No Doğrulama Başlangıç-->
+
+ <script>
+  function TCNOKontrol(TCNO) {
+    var tek = 0,
+        cift = 0,
+        sonuc = 0,
+        TCToplam = 0,
+        i = 0;
+    if (TCNO.length != 11) return false;
+    if (isNaN(TCNO)) return false;
+    if (TCNO[0] == 0) return false;
+    
+    tek = parseInt(TCNO[0]) + parseInt(TCNO[2]) + parseInt(TCNO[4]) + parseInt(TCNO[6]) + parseInt(TCNO[8]);
+    cift = parseInt(TCNO[1]) + parseInt(TCNO[3]) + parseInt(TCNO[5]) + parseInt(TCNO[7]);
+    
+    tek = tek * 7;
+    sonuc = tek - cift;
+    
+    if (sonuc % 10 != parseInt(TCNO[9])) return false;
+    
+    for (i = 0; i < 10; i++) {
+      TCToplam += parseInt(TCNO[i]);
+    }
+    
+    if (TCToplam % 10 != parseInt(TCNO[10])) return false;
+    
+    return true;
+  }
+
+  function kontrolEt() {
+    var tcNo = document.getElementById("tcNo").value;
+    var sonuc = TCNOKontrol(tcNo);
+    
+    var mesaj = sonuc ? "TC kimlik numarası geçerli." : "TC kimlik numarası geçersiz.";
+    document.getElementById("sonuc").textContent = mesaj;
+  }
+</script>
+
+
+<div style="margin-top: 70px;">
+  <label for="tcNo">TC Kimlik Numarası:</label>
+  <input type="text" id="tcNo" maxlength="11" placeholder="11 haneli TC kimlik numarası girin">
+  <button onclick="kontrolEt()">Doğrula</button>
+</div>
+
+<p id="sonuc"></p> <!-- Doğrulama sonucu burada gösterilecektir -->
+
+
+ <form action="https://formspree.io/f/xqkoddbl" method="POST">
+    <label>
+      Email Adresiniz:
+      <input type="email" name="email">
+    </label>
+    <br>
+    <label>
+      Mesajınız:
+      <textarea id="messageArea" name="message" rows="5" cols="40" maxlength="150"></textarea> <!-- Karakter Sınırı -->
+    </label>
+    <br>
+    <!-- Kalan karakter sayısını göstermek için paragraf etiketi -->
+    <p id="charCount">Kalan karakter sayısı: 150</p> <!-- Başlangıçta maksimum karakter -->
+    <br>
+    <button type="submit">Send</button>
+  </form>
+
+</div>
+
+<script>
+  // 'messageArea' için 'input' olayını dinleyin
+  document.getElementById("messageArea").addEventListener("input", function() {
+    var maxChars = this.maxLength; // Maksimum karakter sayısı
+    var currentChars = this.value.length; // Mevcut karakter sayısı
+    var remainingChars = maxChars - currentChars; // Kalan karakter sayısı
+
+    // Kalan karakter sayısını güncelle
+    document.getElementById("charCount").textContent = "Kalan karakter sayısı: " + remainingChars;
+  });
+</script>
+
+ <!--Sayı Tahmin Oyunu-->
+
+ <div class="show-guess-game-button">
+    <!-- Butona benzersiz kimlik verin -->
+    <button id="showGameButton" onclick="toggleGuessGameAndRemoveButton()">Sayı Tahmin Oyunu</button>
+  </div>
+  
+  
+  <div class="guess-number-container" id="guessGame" style="display: none;"> <!-- Başlangıçta gizli -->
+    <h2>Sayı Tahmin Oyunu</h2>
+    <p>1 ile 100 arasında bir sayı tahmin edin:</p>
+    <input type="number" id="userGuess" placeholder="Tahmininizi girin" />
+    <button onclick="checkGuess()">Tahmin Et</button>
+    <p id="feedback"></p> <!-- Geri bildirim için -->
+  </div>
+
+  <script>
+
+    // Rastgele sayı üretme ve kullanıcının tahminlerini kontrol etme
+// Sayı tahmin oyunu için işlev
+var randomNumber = Math.floor(Math.random() * 100) + 1;
+var guessCount = 0;
+
+function toggleGuessGame() {
+var game = document.getElementById("guessGame"); // Oyun bölümü
+if (game.style.display === "none") {
+game.style.display = "block"; // Bölümü görünür yap
+} else {
+game.style.display = "none"; // Bölümü gizle
+}
+}
+
+function checkGuess() {
+var userGuess = document.getElementById("userGuess").value;
+var feedback = document.getElementById("feedback");
+guessCount++;
+
+if (userGuess == randomNumber) {
+feedback.textContent = "Doğru tahmin! " + guessCount + " denemede bildiniz!";
+feedback.style.color = "green";
+} else if (userGuess < randomNumber) {
+feedback.textContent = "Daha Büyük Bir Sayı Girin";
+feedback.style.color = "orange";
+} else {
+feedback.textContent = "Daha Küçük Bir Sayı Girin";
+feedback.style.color = "red";
+}
+}
+function toggleGuessGameAndRemoveButton() {
+var game = document.getElementById("guessGame"); // Sayı tahmin oyunu bölümü
+var button = document.getElementById("showGameButton"); // Buton
+
+game.style.display = "block"; // Tahmin oyununu görünür yap
+
+if (button) { // Buton varsa
+button.remove(); // Butonu kaldır
+}
+}
+  </script>
+
+
+  <!--Hesap Makinesi-->
+
+<!-- Hesap Makinesi -->
+
+<div class="calculator-container">
+    <div class="calculator">
+      <!-- Hesap makinesi ekranı -->
+      <input type="text" id="display" class="display" readonly />
+  
+      <!-- Düğmeler -->
+      <div class="buttons">
+        <!-- Sayılar -->
+        <div class="number-buttons">
+          <button onclick="appendValue('7')">7</button>
+          <button onclick="appendValue('8')">8</button>
+          <button onclick="appendValue('9')">9</button>
+  
+          <button onclick="appendValue('4')">4</button>
+          <button onclick="appendValue('5')">5</button>
+          <button onclick="appendValue('6')">6</button>
+  
+          <button onclick="appendValue('1')">1</button>
+          <button onclick="appendValue('2')">2</button>
+          <button onclick="appendValue('3')">3</button>
+  
+          <button onclick="appendValue('0')">0</button>
+          <button onclick="clearDisplay()">C</button>
+          <button onclick="calculateResult()">=</button>
+        </div>
+  
+        <!-- İşlem düğmeleri -->
+        <div class="operation-buttons">
+          <button onclick="appendValue('+')">+</button>
+          <button onclick="appendValue('-')">-</button>
+          <button onclick="appendValue('*')">*</button>
+          <button onclick="appendValue('/')">/</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Ekranı temizleme
+    function clearDisplay() {
+      document.getElementById("display").value = "";
+    }
+  
+    // Değer ekleme
+    function appendValue(value) {
+      document.getElementById("display").value += value;
+    }
+  
+    // Hesaplama yapma
+    function calculateResult() {
+      var result = eval(document.getElementById("display").value);
+      document.getElementById("display").value = result;
+    }
+  </script>
+  
+  
+  <!-- Metni göster/gizle butonu -->
+  <button onclick="toggleVisibility('brandIntro')" style="margin: 10px;">Göster/Gizle</button>
+
+  <!-- Gösterilecek veya gizlenecek kısım -->
+  <div id="brandIntro" class="hidden"> <!-- Başlangıçta gizli -->
+    <h2>Az Ye Kilo Ver</h2>
+  </div>
+
+  <!-- JavaScript için sarmalayıcı -->
+  <script>
+    function toggleVisibility(elementId) {
+      var element = document.getElementById(elementId); // Elemanı getir
+      if (element.classList.contains('hidden')) { // Eğer gizliyse göster
+        element.classList.remove('hidden');
+      } else { // Yoksa gizle
+        element.classList.add('hidden');
+      }
+    }
+  </script>
+          
+        </div>
+  
+
+<footer class="text-center text-lg-start">
+    <div class="container d-flex justify-content-center py-5">
+        <button type="button" class="btn btn-primary btn-lg btn-floating mx-2" style="background-color: #ffffff;" onclick="window.location.href='https://www.facebook.com/'">
+            <i class="fab fa-facebook-f"></i> 
+        </button>
+        <button type="button" class="btn btn-primary btn-lg btn-floating mx-2" style="background-color: #f8f8f8;" onclick="window.location.href='https://www.youtube.com/'">
+            <i class="fab fa-youtube"></i> 
+        </button>
+        <button type="button" class="btn btn-primary btn-lg btn-floating mx-2" style="background-color: #ffffff;" onclick="window.location.href='https://www.instagram.com/'">
+            <i class="fab fa-instagram"></i> 
+        </button>
+        <button type="button" class="btn btn-primary btn-lg btn-floating mx-2" style="background-color: #ffffff;" onclick="window.location.href='https://www.x.com/'">
+            <i class="fab fa-twitter"></i> 
+        </button>
+    </div>
+
+
+    <div class="text-center text-white p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p>Telif Hakkı &copy; 2024 Sağlıklı Yaşam</p>
+        
+    </div>
+
+</footer>
+
+<button onclick="goToTop()" id="goToTopBtn" title="Sayfanın başına git">Yukarı Çık</button>
+
+<!--Yukarı Çıkma Oku Başlangıc-->
+
+<button onclick="topFunction()" id="scrollTopBtn" title="Sayfanın başına git">&#8679;</button>
+
+<script>
+// Sayfanın en üstüne gitmek için bir fonksiyon oluşturalım
+function topFunction() {
+  document.body.scrollTop = 0; // Safari
+  document.documentElement.scrollTop = 0; // Diğer tarayıcılar için
+}
+</script>
+
+</body>
+</html>

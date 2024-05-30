@@ -1,0 +1,318 @@
+/* Temel CSS */
+body {
+    background-color: #dddddd;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0; 
+}
+
+body.new-font {
+    font-family: 'Times New Roman', Times, serif; /* Yeni yazı tipi */
+}
+
+header {
+    background-color: #129417;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+section {
+    padding: 20px;
+}
+
+footer {
+    background-color: #129417;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer .btn {
+    font-size: 24px;
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Responsive Ayarlar */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 15px 0; /* Mobil cihazlarda daha az padding */
+    }
+
+    nav {
+        overflow: auto; /* Menü öğeleri kesilirse kaydırma çubuğu göster */
+    }
+
+    nav ul {
+        text-align: center; /* Menü öğelerini merkezi hizalama */
+        padding: 0; /* Liste içi boşluğu sıfırla */
+    }
+
+    nav ul li {
+        display: block;
+        margin: 0; /* Öğeler arasındaki boşluğu sıfırla */
+    }
+
+    nav ul li a {
+        display: block; /* Menü öğelerini dikey bir liste olarak göster */
+        padding: 10px; /* Öğeler arasında daha fazla boşluk bırak */
+    }
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #09ff00; /* Üzerine gelindiğinde yazı rengini değiştirin */
+}
+
+#goToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    background-color: #129417;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+}
+
+#goToTopBtn:hover {
+    background-color: #0d6e16;
+}
+
+#toggleThemeBtn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 50%;
+    padding: 10px; /* Buton içeriği için dolgu */
+    cursor: pointer;
+}
+
+
+/* Pop-up stil ayarları */
+.popup {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Arkaplanı biraz saydam yap */
+    z-index: 999; /* Diğer öğelerin üstünde olması için yüksek bir z-index değeri */
+}
+
+.popup-content {
+    background-color: #00af43;
+    margin: 20% auto; /* Sayfanın ortasına hizalama */
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%; /* Pop-up kutusu genişliği */
+    max-width: 500px; /* Maksimum genişlik ayarı */
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5); /* Gölge efekti ekle */
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+
+#changeFontBtn {
+    position: fixed;
+    top: 75px; /* header'ın altına gelecek şekilde ayarlayın */
+    left: 20px;
+    z-index: 999;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+}
+
+
+/* Karanlık Mod CSS */
+[data-theme='dark'] {
+    --bg-color: #2b2a2a; /* Arka plan rengi */
+    --header-footer-color: #1b461b; /* Header ve footer rengi */
+    --text-color: #fdfdfd; /* Metin rengi */    
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+header, footer {
+    background-color: var(--header-footer-color);
+}
+
+#toggleThemeBtn::before {
+    content: "\f0eb"; /* Ampul simgesinin unicode değeri */
+    font-family: 'Font Awesome 5 Free'; /* Fontawesome kütüphanesi */
+    font-weight: 500; /* Simge kalınlığı */
+    font-size: 20px; /* Simge boyutu */
+    margin-right: 2px; /* Simge ile metin arasındaki boşluk */
+}
+
+
+#toggleThemeBtn:hover {
+    background-color: #000000; /* Butona hover yapıldığında arka plan rengi */
+    color: #ffffff; /* Buton metin rengi */
+}
+
+
+/* Aydınlık Mod CSS */
+[data-theme='light'] {
+    --header-footer-color-light: #129417; /* Header ve footer rengi */
+    --text-color-light: #ffffff; /* Metin rengi */
+}
+
+#toggleThemeBtn[data-theme='light'] {
+    background-color: #ffffff; /* Buton arka plan rengi */
+    color: #000000; /* Buton metin rengi */
+}
+
+#toggleThemeBtn[data-theme='light']:hover {
+    background-color: #f0f0f0; /* Butona hover yapıldığında arka plan rengi */
+}
+
+[data-theme='light'] header,
+[data-theme='light'] footer {
+    background-color: var(--header-footer-color-light); /* Header ve footer arka plan rengi */
+    color: var(--text-color-light); /* Header ve footer metin rengi */
+}
+
+#scrollTopBtn {
+    /* display: none; / / Bu satırı yorum haline getirin veya silin */
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    z-index: 99;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    background-color: rgb(32, 38, 45);
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+  }
+
+  #scrollTopBtn:hover {
+    background-color: #0056b3; /* Üzerine gelindiğinde arka plan rengi değişir */
+  }
+
+  .slider-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    overflow: hidden;
+}
+
+
+
+.slider {
+    width: 30%; /* Slider container'ının genişliğine eşit genişlik */
+    height: 30%; /* Slider container'ının yüksekliğine eşit yükseklik */
+}
+
+.slider img {
+    width: 60%; /* Resmin genişliği slider'ın genişliğine eşit olacak */
+    height: 60%; /* Resmin yüksekliği slider'ın yüksekliğine eşit olacak */
+    object-fit: cover; /* Resmi container içinde orantılı şekilde yerleştir */
+}
+
+
+.calculator {
+    width: 200px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.number-buttons button,
+.operation-buttons button {
+    width: 25%;
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.display {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.hidden {
+    visibility: hidden;
+}
